@@ -55,6 +55,15 @@ exports.isStudent =async (req ,resp)=>{
 
     try{
 
+        if(req.user.accountType !== "Student"){
+           return resp.status(401).json({
+            success:false,
+            message:"This is student protected route",
+           })
+
+        }
+        next();
+
     }catch(err){
         return resp.status(500).json({
             success:false,
@@ -69,9 +78,54 @@ exports.isStudent =async (req ,resp)=>{
 
 
 // isInstructor
+exports.isInstructor =async (req ,resp)=>{
+
+    try{
+
+        if(req.user.accountType !== "Instructor"){
+           return resp.status(401).json({
+            success:false,
+            message:"This is instructor proctcted route",
+           })
+
+        }
+        next();
+
+    }catch(err){
+        return resp.status(500).json({
+            success:false,
+            message:"User role can not verified",
+        })
+
+    }
+
+}
 
 
 
 // isAdmin
+
+exports.isAdmin =async (req ,resp)=>{
+
+    try{
+
+        if(req.user.accountType !=="Admin"){
+           return resp.status(401).json({
+            success:false,
+            message:"This is Admin proctected route",
+           })
+
+        }
+        next();
+
+    }catch(err){
+        return resp.status(500).json({
+            success:false,
+            message:"User role can not verified",
+        })
+
+    }
+
+}
 
 

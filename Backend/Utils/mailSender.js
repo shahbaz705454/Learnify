@@ -3,7 +3,7 @@ const nodemailer = require("nodemailer");
 require("dotenv").config();
 
 
-const mailSender =async(email,title ,otp)=>{
+const mailSender =async(email,title ,body)=>{
  try{
 
     let transporter = nodemailer.createTransport({
@@ -19,7 +19,7 @@ const mailSender =async(email,title ,otp)=>{
         from:'Learnify || Learnig Platform By-Shahbaz',
         to:`${email}`,
         subject:`${title}`,
-        html:`${otp}`,
+        html:`${body}`,
     })
     console.log(info)
     return info;

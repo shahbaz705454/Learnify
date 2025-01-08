@@ -3,6 +3,7 @@ const OTP = require("../Models/OTP");
 const optGenarator = require('otp-generator')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
+const mailSender = require("../Utils/mailSender");
 require("dotenv").config();
 
 // send OTP
@@ -217,7 +218,7 @@ exports.login = async (req, resp) => {
             const payload = {
                 email: user.email,
                 id: user._id,
-                role: user.role,
+                role: user.accountType,
             }
             const token = jwt.sign(payload, process.env.JWT_SECRET, {
                 expiresIn: "2h",
@@ -280,6 +281,8 @@ exports.changePassword =async (req ,resp)=>{
             });
         }
 
+        
+
         // check if new passwords match
         if (newPassword !== confirmNewPassword) {
             return resp.status(400).json({
@@ -312,6 +315,9 @@ exports.changePassword =async (req ,resp)=>{
         // update user's password
         user.password = hashedNewPassword;
         await user.save();
+
+        // send email notification
+        await mailSender(email, "Password Changed", "Your password has been changed successfully.");
 
         return resp.status(200).json({
             success: true,
