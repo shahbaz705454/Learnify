@@ -1,8 +1,8 @@
-const Tag = require("../Models/Tag");
+const Tag = require("../Models/Category");
 
 
 
-exports.CreateTag =async(req ,resp)=>{
+exports.CreateCategory =async(req ,resp)=>{
 
     try{
 
@@ -16,21 +16,21 @@ exports.CreateTag =async(req ,resp)=>{
         }
 
         // create entry in db
-        const tagDetail = await Tag.create({
+        const CategoryDetail = await Tag.create({
             name:name,
             description:description,
         })
-        console.log(tagDetail);
+        console.log(CategoryDetail);
 
         return resp.status(200).json({
             success:true,
-            message:"Tag Created Succesfull",
+            message:"Category Created Succesfull",
         })
 
     }catch(err){
         return resp.status(500).json({
             success:false,
-            message:"Failed to create Tag "+err.message,
+            message:"Failed to create Category "+err.message,
         })
     }
 }
@@ -39,23 +39,23 @@ exports.CreateTag =async(req ,resp)=>{
 
 // get All tags 
 
-exports.shoeAllTags = async (req , resp)=>{
+exports.showAllCategory = async (req , resp)=>{
 
     try{
 
-        const allTags = await Tag.find({},{name:true,description:true});
+        const allcategory = await Tag.find({},{name:true,description:true});
 
         // return response 
         return resp.status(200).json({
             success:true,
-            message:"all tags return succcessfully",
+            message:"all Category return succcessfully",
             allTags,
         })
 
     }catch(err){
         return resp.status(400).json({
             success:false,
-            message:"Failed to get all tags",
+            message:"Failed to get all Category",
         })
     }
 }
