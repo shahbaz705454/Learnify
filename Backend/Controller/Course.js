@@ -1,5 +1,5 @@
 const Course = require("../Models/Course");
-const Tag = require("../Models/Category");
+const Category = require("../Models/Category");
 const User = require("../Models/User");
 const { uploadImageToCloudinary } = require("../Utils/ImageUpload");
 
@@ -9,38 +9,38 @@ const { uploadImageToCloudinary } = require("../Utils/ImageUpload");
 exports.createCourse = async (req, resp) => {
     try {
 
-        const { courseName, courseDescription, whatYouWillLearn, price, tag } = req.body;
+        const { courseName, courseDescription, whatYouWillLearn, price, category } = req.body;
 
         // get thumbnail
         const thumbnail = req.file.thumbnail;
 
         // validation
-        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !tag || !thumbnail) {
+        if (!courseName || !courseDescription || !whatYouWillLearn || !price || !category || !thumbnail) {
             return resp.status(400).json({
                 success: false,
                 message: "All fields are required",
             });
         }
 
-        // Check if tag exists
-        const existingTag = await Tag.findById(tag);
-        if (!existingTag) {
+        // Check if Category exists
+        const existingCategory = await Category.findById(category);
+        if (!existingCategory) {
             return resp.status(400).json({
                 success: false,
-                message: "Invalid tag",
+                message: "Invalid Category",
             });
         }
 
 
         // check for instructor
         const userId = req.user.id;
-        const instructorDetails = await User.findById({userId});
+        const instructorDetails = await User.findById(userId);
         console.log("Instructor Details",instructorDetails);
 
 
         if(!instructorDetails){
            return resp.status(404).json({
-            successs:false,
+            success:false,
             message:"Instractor Detail not Found",
            });
         }
@@ -58,7 +58,7 @@ exports.createCourse = async (req, resp) => {
             price,
             whatYouWillLearn:whatYouWillLearn,
             thumbnail:thumbnailImage.secure_url,
-            tag:existingTag._id,
+            Category:existingCategory._id,
         })
 
 
@@ -76,9 +76,9 @@ exports.createCourse = async (req, resp) => {
 
 
 
-        // update tag schema
-        await Tag.findByIdAndUpdate(
-            {_id: existingTag._id},
+        // update Category schema
+        await Category.findByIdAndUpdate(
+            {_id: existingCategory._id},
             {
             $push: {
                 courses: newCourse._id,
