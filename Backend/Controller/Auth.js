@@ -4,6 +4,7 @@ const optGenarator = require('otp-generator')
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../Utils/mailSender");
+const passwordUpdatedTemplate = require("../mail/PasswordUpdate");
 require("dotenv").config();
 
 // send OTP
@@ -315,7 +316,8 @@ exports.changePassword =async (req ,resp)=>{
         // update user's password
         user.password = hashedNewPassword;
         await user.save();
-
+        const emailContent = passwordUpdatedTemplate(email, user.firstName);
+        await mailSender(email, "Password Changed", emailContent);
         // send email notification
         await mailSender(email, "Password Changed", "Your password has been changed successfully.");
 

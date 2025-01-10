@@ -1,5 +1,7 @@
 const mongoose =require("mongoose");
 const mailSender = require("../Utils/mailSender");
+const otpTemplate = require("../mail/emailVerificationTemplate");
+const otpTemplate = require("../mail/emailVerificationTemplate");
 
 
 
@@ -23,10 +25,12 @@ const OTPSchema= new mongoose.Schema({
 
 // a function -> to send email
 
+
+// Use the email verification template to send the OTP email
 async function sendVerificationEmail(email,otp){
     try{
 
-        const mailResponse = await mailSender(email,"Verification Email From Learnify",otp);
+        const mailResponse = await mailSender(email,"Verification Email From Learnify",otpTemplate(otp));
         console.log("Email send Succesfully",mailResponse)
 
     }catch(err){
