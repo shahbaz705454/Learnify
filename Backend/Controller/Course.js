@@ -111,7 +111,7 @@ exports.createCourse = async (req, resp) => {
 
 // get ALl course HAndler function
 
-exports.showAllCourses=async(req ,resp)=>{
+exports.getAllCourses=async(req ,resp)=>{
 
     try{
 
@@ -132,3 +132,61 @@ exports.showAllCourses=async(req ,resp)=>{
     }
 
 }
+
+
+exports.getCourseDetails =async(req,resp)=>{
+    try{
+
+        const {courseId} = req.body;
+
+        // find course detail 
+        const courseDetail = await Course.findById(
+            {_id:courseId})
+            .populate(
+                {
+                    path:"instructor",
+                    populate:{
+                        path:"additionalDetails",
+                    }
+                }
+            )
+            .populate("category")
+            .populate("ratingAndReview")
+            .populate({
+                path:"courseContent",
+                populate:{
+                    path:"subSection",
+                },
+            })
+            .exec();
+
+
+    // validation
+    if(!courseDetail){
+        return resp.status(400).json({
+            success:false,
+            message:`could not find the course with ${courseId} `,
+        })
+    }
+
+
+    // return response 
+    return resp.status(200).json({
+        success:true,
+        message:"course Detail fetched successfull",
+    })
+
+
+    }catch(err){
+
+        console.log(err);
+        return resp.status(500).json({
+            success:false,
+            message:err.message,
+        })
+
+    }
+}
+
+
+

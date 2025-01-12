@@ -58,3 +58,27 @@ exports.showAllCategory = async (req , resp)=>{
         })
     }
 }
+
+// category page detail
+
+exports.categoryPageDetails =async (req,resp )=>{
+    try{
+
+        // get category id
+        const  {categoryId} =req.body;
+        // get courses fro special category
+
+        const selectedCategory = await Category.findById({categoryId}).populate("courses").exec();
+        // validation
+        // get course for different category
+        // get top selling course 
+
+        
+    }catch(err){
+        console.log(err);
+        return resp.status(500).json({
+            success:false,
+            message:"falied to create rating and review"
+        })
+    }
+}
