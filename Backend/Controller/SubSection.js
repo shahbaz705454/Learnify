@@ -51,7 +51,7 @@ exports.createSubSection = async (req, resp)=>{
             }
             },
             {new: true},
-        ).populate('subSection');
+        ).populate('subSections');
 
         console.log(updateSection);
 
@@ -68,7 +68,7 @@ exports.createSubSection = async (req, resp)=>{
 
         return resp.status(500).json({
             success: false,
-            message: "Failed to create Section",
+            message: "Failed to create Section"+err.message,
         })
             
     }

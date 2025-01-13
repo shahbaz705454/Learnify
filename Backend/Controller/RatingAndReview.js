@@ -79,49 +79,51 @@ exports.createRating = async (req, resp) => {
 }
 
 
-exports.getAverageRating = async (req, resp) => {
+exports.getAverageRating = async (req, res) => {
     try {
-        // get COurse id
+        // Get course ID
         const courseId = req.body.courseId;
-        // calculate data of avg rating 
+        console.log("Received courseId:", courseId);
+
+        // Calculate average rating
         const result = await RatingAndReview.aggregate([
             {
                 $match: {
-                    course: new mongoose.Types.ObjectId(courseId),
-                }
+                    coures: new mongoose.Types.ObjectId(courseId), // Correct field name
+                },
             },
             {
                 $group: {
                     _id: null,
                     averageRating: { $avg: "$rating" },
                 },
-            }
-        ])
+            },
+        ]);
 
-        // return rating 
-        if (result > 0) {
-            return resp.status(200).json({
+        console.log("Aggregation Result:", result);
+
+        // Return rating
+        if (result.length > 0) {
+            return res.status(200).json({
                 success: true,
                 averageRating: result[0].averageRating,
-            })
+            });
         }
 
-        // if no rating exists 
-        return resp.status(200).json({
-            message: "Average RAting Is 0,no Rating given Till Now",
+        // If no ratings/reviews exist
+        return res.status(200).json({
+            success: true,
+            message: "Average Rating is 0, no ratings given till now",
             averageRating: 0,
-        })
-
-    } catch (err) {
-        console.log(err);
-        return resp.status(500).json({
+        });
+    } catch (error) {
+        console.log(error);
+        return res.status(500).json({
             success: false,
-            message: "falied to get avg of rating and review"
-        })
-
+            message: error.message,
+        });
     }
-}
-
+};
 
 
 // get all Rating 
@@ -131,7 +133,7 @@ exports.getAllRating = async (req, resp) => {
     try {
 
 
-        const allReviews = await RatingAndReview.Find({})
+        const allReviews = await RatingAndReview.find({})
             .sort({ rating: "desc" })
             .populate({
                 path: "user",
@@ -157,7 +159,7 @@ exports.getAllRating = async (req, resp) => {
         console.log(err);
         return resp.status(500).json({
             success: false,
-            message: "falied to get All Rating And Reviews"
+            message: "falied to get All Rating And Reviews"+err.message,
         })
     }
 }

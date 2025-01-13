@@ -26,11 +26,11 @@ const courseSchema = new mongoose.Schema({
         }
     ],
     ratingAndReviews: [
-        {
-            type: mongoose.Schema.Types.ObjectId,
-            ref: "RatingAndReview",
-        }
-    ],
+		{
+			type: mongoose.Schema.Types.ObjectId,
+			ref: "RatingAndReview",
+		},
+	],
     price: {
         type: String,
         required: true,

@@ -2,33 +2,14 @@ const Course = require("../Models/Course");
 const Section = require("../Models/Section")
 const subSection = require("../Models/SubSection");
 
-exports.createSection = async (req, resp) => {
-
+exports.createSection = async (req, res) => {
     try {
-
-        // fetch data
-        const { courseId, sectionName } = req.body;
-        // validate data
-        if (!courseId || !sectionName) {
-            return resp.status(400).json({
-                success: false,
-                message: "All fields are required",
-            })
-        }
-
-        // check if course exists
-        const existingCourse = await Course.findById(courseId);
-        if (!existingCourse) {
-            return resp.status(400).json({
-                success: false,
-                message: "Invalid Course",
-            })
-        }
+        const { sectionName, courseId } = req.body;
 
         // create Section
         const newSection = await Section.create({
             sectionName,
-        })
+        });
 
         const updateCourse = await Course.findByIdAndUpdate(
             courseId,
@@ -42,36 +23,23 @@ exports.createSection = async (req, resp) => {
             path: 'courseContent',
             populate: {
                 path: 'subSections',
-                model: 'SubSection'
-            }
+                model: 'SubSection',
+            },
         });
 
-
-        // return response 
-
-        return resp.status(200).json({
+        return res.status(200).json({
             success: true,
-            message: "Section Created Successfully",
-            updateCourse
-        })
-
-
-
-
-
-
-
-    } catch (err) {
-
-        return resp.status(500).json({
+            message: "Section created successfully",
+            course: updateCourse,
+        });
+    } catch (error) {
+        console.error("Error creating section:", error);
+        return res.status(500).json({
             success: false,
-            message: "Failed to create Section",
-        })
-
-
+            message: "Failed to create section" + error.message,
+        });
     }
-}
-
+};
 
 exports.updateSection = async (req, resp) => {
 

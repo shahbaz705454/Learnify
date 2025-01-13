@@ -1,7 +1,7 @@
 const mongoose =require("mongoose");
 const mailSender = require("../Utils/mailSender");
 const otpTemplate = require("../mail/emailVerificationTemplate");
-const otpTemplate = require("../mail/emailVerificationTemplate");
+
 
 
 

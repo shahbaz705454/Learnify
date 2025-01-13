@@ -70,15 +70,38 @@ exports.categoryPageDetails =async (req,resp )=>{
 
         const selectedCategory = await Category.findById({categoryId}).populate("courses").exec();
         // validation
+        if(!selectedCategory){
+            return resp.status(403).json({
+                success:false,
+                message:"Data Not Found",
+            })
+        }
         // get course for different category
+        const differentCategories = await Category.find(
+            {_id:{$ne:categoryId},}
+        ).populate("courses").exec();
+        
         // get top selling course 
+        const topSellingCourses = await Course.find({})
+            .sort({ studentsEnrolled: -1 })
+            .limit(10)
+            .exec();
+
+        return resp.status(200).json({
+            success: true,
+            selectedCategory,
+            differentCategories,
+            topSellingCourses,
+        });
+
+
 
         
     }catch(err){
         console.log(err);
         return resp.status(500).json({
             success:false,
-            message:"falied to create rating and review"
+            message:"Failed to Get All Course"
         })
     }
 }
