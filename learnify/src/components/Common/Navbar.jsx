@@ -4,12 +4,15 @@ import logo from "../../assets/Logo/Logo-Full-Light.png"
 import { NavbarLinks } from "../../data/navbar-links"
 import { useLocation } from 'react-router-dom'
 import { useSelector } from 'react-redux'
+import { AiOutlineShoppingCart } from "react-icons/ai";
+import ProfileDropDown from '../core/Auth/ProfileDropDown'
+
 const Navbar = () => {
     const location = useLocation();
 
-    const {token} =useSelector((state)=>state.auth);
-    const {user} =useSelector((state)=>state.profile);
-    const {totalItems} =useSelector((state)=>state.cart);
+    const { token } = useSelector((state) => state.auth);
+    const { user } = useSelector((state) => state.profile);
+    const { totalItems } = useSelector((state) => state.cart);
     const matchRoute = (route) => {
         return matchPath({ path: route }, location.pathname);
     }
@@ -33,7 +36,11 @@ const Navbar = () => {
                                     <li key={index}
                                         className=''
 
-                                    >{link.title === "Catalog" ? (<div>hello</div>) : (
+                                    >{link.title === "Catalog" ? (
+                                    <div>hello</div>)
+                                    
+                                    
+                                    : (
                                         <Link to={link?.path}>
                                             <p className={`${matchRoute(link?.path) ? "text-yellow-25 " : " text-richblack-25 "}`}>
                                                 {link.title}
@@ -50,8 +57,44 @@ const Navbar = () => {
 
                 {/* Login /Signup/button */}
                 <div className='flex gap-x-4 items-center'>
-                    <Link>btn</Link>
-                    <Link>btn2</Link>
+                    {user && user.accountType != "instructor" && (
+                        <Link to="/dashboard/cart" className='relative'>
+                            <AiOutlineShoppingCart></AiOutlineShoppingCart>
+                            {
+                                totalItems > 0 && (
+                                    <span>{totalItems}</span>
+                                )
+                            }
+
+                        </Link>
+                    )
+                    }
+
+                    {
+                        token == null && (
+                            <Link to="/login">
+                                <button className='border border-richblack-700 bg-richblack-800 py-[7px] px-3 hover:text-white transition-all duration-100 text-richblack-100 rounded-md'>
+                                    Log In
+                                </button>
+                            </Link>
+                        )
+                    }
+
+                    {
+                        token == null && (
+                            <Link to="/signup">
+                                <button className='border border-richblack-700 bg-richblack-800 py-[7px] px-3 hover:text-white transition-all duration-100 text-richblack-100 rounded-md'>
+                                    Sign Up
+                                </button>
+                            </Link>
+                        )
+                    }
+
+                    {
+                        token !== null && (
+                            <ProfileDropDown></ProfileDropDown>
+                        )
+                    }
                 </div>
 
 
