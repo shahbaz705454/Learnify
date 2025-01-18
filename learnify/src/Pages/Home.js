@@ -16,7 +16,7 @@ const Home = () => {
         <div >
             {/* Section 1 */}
             <div className='relative mx-auto flex flex-col  w-11/12 items-center text-white justify-center'>
-                <Link to={"/signUp"} >
+                <Link to={"/signup"} >
                     <div className='group mx-auto rounded-full bg-richblack-800 font-bold text-richblack-200 
              transition-all duration-200 hover:scale-95 w-fit mt-16 p-1 drop-shadow-[0_1.01px_#FFD700]
              hover:drop-shadow-none '>
