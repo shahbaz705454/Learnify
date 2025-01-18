@@ -5,6 +5,10 @@ import About from './Pages/About';
 import Login from './Pages/Login';
 import Signup from './Pages/Signup';
 import Navbar from './components/Common/Navbar';
+import ForgotPassword from './Pages/ForgotPassword';
+import OpenRoute from './components/core/Auth/OpenRoute';
+import UpdatePassword from './Pages/UpdatePassword';
+import VerifyEmail from './Pages/VerifyEmail';
 
 function App() {
   return (
@@ -14,8 +18,13 @@ function App() {
 
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
-        <Route path='/login' element={<Login />} />
-        <Route path='/signup' element={<Signup />} />
+
+        <Route path="signup" element={<OpenRoute><Signup /></OpenRoute>} />
+        <Route path="login" element={<OpenRoute><Login /></OpenRoute>} />
+        <Route path="update-password/:id" element={<OpenRoute><UpdatePassword /></OpenRoute>} />
+        <Route path="forgot-password" element={<OpenRoute><ForgotPassword /> </OpenRoute>} />
+        <Route path="verify-email" element={<OpenRoute><VerifyEmail /> </OpenRoute>} />
+
       </Routes>
 
 

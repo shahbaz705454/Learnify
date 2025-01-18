@@ -149,7 +149,7 @@ export function getPasswordResetToken(email , setEmailSent) {
     }
     catch(error) {
       console.log("RESET PASSWORD TOKEN Error", error);
-      toast.error("Failed to send email for resetting password");
+      toast.error("Email Address Not Found");
     }
     dispatch(setLoading(false));
   }
@@ -169,6 +169,7 @@ export function resetPassword(password, confirmPassword, token) {
       }
 
       toast.success("Password has been reset successfully");
+      
     }
     catch(error) {
       console.log("RESET PASSWORD TOKEN Error", error);
