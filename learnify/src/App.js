@@ -9,6 +9,7 @@ import ForgotPassword from './Pages/ForgotPassword';
 import OpenRoute from './components/core/Auth/OpenRoute';
 import UpdatePassword from './Pages/UpdatePassword';
 import VerifyEmail from './Pages/VerifyEmail';
+import Contact from './Pages/Contact';
 
 
 function App() {
@@ -19,6 +20,7 @@ function App() {
 
         <Route path='/' element={<Home />} />
         <Route path='/about' element={<About />} />
+        <Route path='/contact' element={<Contact />} />
 
         <Route path="signup" element={<OpenRoute><Signup /></OpenRoute>} />
         <Route path="login" element={<OpenRoute><Login /></OpenRoute>} />
