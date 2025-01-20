@@ -2,7 +2,8 @@ const Profile = require("../Models/Profile");
 const User = require("../Models/User");
 const Course = require("../Models/Course");
 const {uploadImageToCloudinary} = require("../Utils/ImageUpload");
-
+const mongoose = require("mongoose");
+const CourseProgress = require("../Models/CourseProgress");
 
 
 exports.updateProfile = async (req, resp) => {
@@ -45,7 +46,7 @@ exports.updateProfile = async (req, resp) => {
     } catch (err) {
         return resp.status(500).json({
             success: false,
-            message: "Failed to update Profile",
+            message: `Failed to update Profile ${err}`,
         });
     }
 
@@ -57,6 +58,7 @@ exports.updateProfile = async (req, resp) => {
 
 // delete account 
 exports.deleteAccount = async (req, res) => {
+
     try {
       const id = req.user.id
       console.log(id)
@@ -92,6 +94,8 @@ exports.deleteAccount = async (req, res) => {
         .json({ success: false, message: "User Cannot be deleted successfully" })
     }
   }
+
+  
   
 
 exports.getAllUserDetails = async (req, resp) => {
@@ -99,7 +103,10 @@ exports.getAllUserDetails = async (req, resp) => {
 
         const id = req.user.id;
 
-        const userDetails = await User.findById({ _id: id }).populate("additionalDetails");
+        const userDetails = await User.findById(id)
+        .populate("additionalDetails")
+        .exec()
+        console.log(userDetails);
 
         return resp.status(200).json({
             success: true,

@@ -1,18 +1,21 @@
-const mongoose = require('mongoose');
+const mongoose = require("mongoose");
 
-const courseSchema = new mongoose.Schema({
-    courseID:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"Course",
-    
+const courseProgressSchema = new mongoose.Schema({
+  courseID: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "Course",
+  },
+  userId: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: "User",
+  },
+  completedVideos: [
+    {
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "SubSection",
     },
-    completedVideos:{
-        type:mongoose.Schema.Types.ObjectId,
-        ref:"SubSection"
-    },
-  
+  ],
+});
 
-
-
-})
-module.exports = mongoose.model("CourseProgress",courseSchema);
+// Check if the model is already registered
+module.exports = mongoose.models.courseProgress || mongoose.model("courseProgress", courseProgressSchema);

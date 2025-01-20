@@ -9,6 +9,8 @@ import IconBtn from "../../../Common/IconBtn"
 
 export default function UpdatePassword() {
   const { token } = useSelector((state) => state.auth)
+  const { email} = useSelector((state) => state.profile.user)
+
   const navigate = useNavigate()
 
   const [showOldPassword, setShowOldPassword] = useState(false)
@@ -21,9 +23,15 @@ export default function UpdatePassword() {
   } = useForm()
 
   const submitPasswordForm = async (data) => {
-    // console.log("password Data - ", data)
+        // Add email to the data object
+    const formData = { ...data, email };
+    // console.log("password Data - ", formData)
     try {
-      await changePassword(token, data)
+        // Add email to the data object
+    
+    // console.log("Form Data with Email - ", formData);
+
+    await changePassword(token, formData);
     } catch (error) {
       console.log("ERROR MESSAGE - ", error.message)
     }

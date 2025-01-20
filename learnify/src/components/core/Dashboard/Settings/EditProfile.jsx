@@ -20,7 +20,7 @@ export default function EditProfile() {
   } = useForm()
 
   const submitProfileForm = async (data) => {
-    // console.log("Form Data - ", data)
+    console.log("Form Data - ", data)
     try {
       dispatch(updateProfile(token, data))
     } catch (error) {
@@ -44,10 +44,11 @@ export default function EditProfile() {
                 type="text"
                 name="firstName"
                 id="firstName"
-                placeholder="Enter first name"
-                className="form-style"
-                {...register("firstName", { required: true })}
-                defaultValue={user?.firstName}
+                placeholder={user?.firstName}
+                readOnly
+                className="form-style select-none"
+                
+               
               />
               {errors.firstName && (
                 <span className="-mt-1 text-[12px] text-yellow-100">
@@ -63,10 +64,10 @@ export default function EditProfile() {
                 type="text"
                 name="lastName"
                 id="lastName"
-                placeholder="Enter first name"
-                className="form-style"
-                {...register("lastName", { required: true })}
-                defaultValue={user?.lastName}
+                placeholder={user?.lastName}
+                readOnly
+                className="form-style select-none"
+             
               />
               {errors.lastName && (
                 <span className="-mt-1 text-[12px] text-yellow-100">

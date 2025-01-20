@@ -9,12 +9,27 @@ export default function DeleteAccount() {
   const dispatch = useDispatch()
   const navigate = useNavigate()
 
+  
+  
+  
+
+
   async function handleDeleteAccount() {
-    try {
-      dispatch(deleteProfile(token, navigate))
-    } catch (error) {
-      console.log("ERROR MESSAGE - ", error.message)
+    const userConfirmed = window.confirm("Are you sure you want to proceed?");
+    if (userConfirmed) {
+      try {
+        dispatch(deleteProfile(token, navigate))
+      } catch (error) {
+        console.log("ERROR MESSAGE - ", error.message)
+      }
+      
+    
+    } else {
+      
+      
+     
     }
+   
   }
 
   return (

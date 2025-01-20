@@ -5,7 +5,7 @@ const optGenarator = require('otp-generator');
 const bcrypt = require("bcrypt");
 const jwt = require("jsonwebtoken");
 const mailSender = require("../Utils/mailSender");
-const passwordUpdatedTemplate = require("../mail/PasswordUpdate");
+const {passwordUpdated} = require("../mail/PasswordUpdate");
 require("dotenv").config();
 
 // send OTP
@@ -177,7 +177,7 @@ exports.login = async (req, resp) => {
             });
         }
 
-        const user = await User.findOne({ email });
+        const user = await User.findOne({ email }).populate("additionalDetails");
 
         if (!user) {
             return resp.status(401).json({
@@ -229,23 +229,17 @@ exports.login = async (req, resp) => {
 // change Password
 exports.changePassword = async (req, resp) => {
     try {
-        const { email, oldPassword, newPassword, confirmNewPassword } = req.body;
+        const { email, oldPassword, newPassword } = req.body;
 
         // validate input
-        if (!email || !oldPassword || !newPassword || !confirmNewPassword) {
+        if (!email || !oldPassword || !newPassword ) {
             return resp.status(400).json({
                 success: false,
                 message: "All fields are required",
             });
         }
 
-        // check if new passwords match
-        if (newPassword !== confirmNewPassword) {
-            return resp.status(400).json({
-                success: false,
-                message: "New passwords do not match",
-            });
-        }
+       
 
         // find user by email
         const user = await User.findOne({ email });
@@ -271,7 +265,7 @@ exports.changePassword = async (req, resp) => {
         // update user's password
         user.password = hashedNewPassword;
         await user.save();
-        const emailContent = passwordUpdatedTemplate(email, user.firstName);
+        const emailContent = passwordUpdated(email, user.firstName);
         await mailSender(email, "Password Changed", emailContent);
         // send email notification
         await mailSender(email, "Password Changed", "Your password has been changed successfully.");
@@ -284,7 +278,7 @@ exports.changePassword = async (req, resp) => {
         console.log(err);
         return resp.status(500).json({
             success: false,
-            message: "Failed to change password",
+            message: `Failed to change password ${err}`,
         });
     }
 };

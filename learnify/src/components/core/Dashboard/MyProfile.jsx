@@ -8,6 +8,8 @@ import IconBtn from "../../Common/IconBtn"
 export default function MyProfile() {
   const { user } = useSelector((state) => state.profile)
   const navigate = useNavigate()
+  console.log(user)
+  
 
   return (
     <>
@@ -40,14 +42,7 @@ export default function MyProfile() {
       <div className="my-10 flex flex-col gap-y-10 rounded-md border-[1px] border-richblack-700 bg-richblack-800 p-8 px-12">
         <div className="flex w-full items-center justify-between">
           <p className="text-lg font-semibold text-richblack-5">About</p>
-          <IconBtn
-            text="Edit"
-            onclick={() => {
-              navigate("/dashboard/settings")
-            }}
-          >
-            <RiEditBoxLine />
-          </IconBtn>
+         
         </div>
         <p
           className={`${
@@ -64,14 +59,7 @@ export default function MyProfile() {
           <p className="text-lg font-semibold text-richblack-5">
             Personal Details
           </p>
-          <IconBtn
-            text="Edit"
-            onclick={() => {
-              navigate("/dashboard/settings")
-            }}
-          >
-            <RiEditBoxLine />
-          </IconBtn>
+          
         </div>
         <div className="flex max-w-[500px] justify-between">
           <div className="flex flex-col gap-y-5">
