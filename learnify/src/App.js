@@ -15,6 +15,7 @@ import Dashboard from "./Pages/Dashboard"
 import PrivateRoute from './components/core/Auth/PrivateRoute';
 import Error from "./Pages/Error"
 import Settings from "./components/core/Dashboard/Settings";
+import EnrolledCourses from "./components/core/Dashboard/EnrolledCourses";
 
 
 
@@ -49,16 +50,16 @@ function App() {
            <Route path="dashboard/Settings" element={<Settings />} />
 
 
-          {/*{
+          {
             user?.accountType === ACCOUNT_TYPE.STUDENT && (
               <>
-                <Route path="dashboard/cart" element={<Cart />} />
+                {/* <Route path="dashboard/cart" element={<Cart />} /> */}
                 <Route path="dashboard/enrolled-courses" element={<EnrolledCourses />} />
               </>
             )
           }
 
-          {
+          {/* {
             user?.accountType === ACCOUNT_TYPE.INSTRUCTOR && (
               <>
                 <Route path="dashboard/instructor" element={<Instructor />} />
@@ -68,7 +69,7 @@ function App() {
 
               </>
             )
-          } */}
+          }  */}
 
 
         </Route>
