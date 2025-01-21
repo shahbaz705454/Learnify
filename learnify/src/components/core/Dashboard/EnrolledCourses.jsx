@@ -1,29 +1,28 @@
 import { useEffect, useState } from "react"
 import ProgressBar from "@ramonak/react-progress-bar"
-import { BiDotsVerticalRounded } from "react-icons/bi"
+
 import { useSelector } from "react-redux"
 import { useNavigate } from "react-router-dom"
 
-import { getUserEnrolledCourses } from "../../../services/operations/profileAPI"
+import { getUserEnrolledCourses } from "../../../Services/operations/profileAPI"
 
 export default function EnrolledCourses() {
   const { token } = useSelector((state) => state.auth)
   const navigate = useNavigate()
 
   const [enrolledCourses, setEnrolledCourses] = useState(null)
-  const getEnrolledCourses = async () => {
-    try {
-      const res = await getUserEnrolledCourses(token);
-
-      setEnrolledCourses(res);
-    } catch (error) {
-      console.log("Could not fetch enrolled courses.")
-      
-    }
-  };
   useEffect(() => {
-    getEnrolledCourses();
-  }, [])
+    const fetchEnrolledCourses = async () => {
+      try {
+        const res = await getUserEnrolledCourses(token);
+        setEnrolledCourses(res);
+      } catch (error) {
+        console.log("Could not fetch enrolled courses.");
+      }
+    };
+
+    fetchEnrolledCourses();
+  }, [token]);
 
   return (
     <>
