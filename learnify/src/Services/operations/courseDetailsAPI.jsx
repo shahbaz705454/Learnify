@@ -45,7 +45,7 @@ export const getAllCourses = async () => {
 export const fetchCourseDetails = async (courseId) => {
   const toastId = toast.loading("Loading...")
   //   dispatch(setLoading(true));
-  let result = null
+  let result = null;
   try {
     const response = await apiConnector("POST", COURSE_DETAILS_API, {
       courseId,
@@ -75,7 +75,7 @@ export const fetchCourseCategories = async () => {
     if (!response?.data?.success) {
       throw new Error("Could Not Fetch Course Categories")
     }
-    result = response?.data?.data
+    result = response?.data?.allCategory;
   } catch (error) {
     console.log("COURSE_CATEGORY_API API ERROR............", error)
     toast.error(error.message)

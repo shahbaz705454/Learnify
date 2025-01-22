@@ -38,7 +38,7 @@ export default function SubSectionModal({
 
   useEffect(() => {
     if (view || edit) {
-      // console.log("modalData", modalData)
+      console.log("modalData", modalData)
       setValue("lectureTitle", modalData.title)
       setValue("lectureDesc", modalData.description)
       setValue("lectureVideo", modalData.videoUrl)

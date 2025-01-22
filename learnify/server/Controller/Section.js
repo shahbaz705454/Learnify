@@ -22,7 +22,7 @@ exports.createSection = async (req, res) => {
         ).populate({
             path: 'courseContent',
             populate: {
-                path: 'subSections',
+                path: 'subSection',
                 model: 'SubSection',
             },
         });

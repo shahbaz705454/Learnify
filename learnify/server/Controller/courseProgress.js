@@ -1,7 +1,7 @@
 const mongoose = require("mongoose")
 const Section = require("../Models/Section")
 const SubSection = require("../Models/SubSection")
-const CourseProgress = require("../models/CourseProgress")
+const CourseProgress = require("../Models/CourseProgress")
 const Course = require("../Models/Course")
 
 exports.updateCourseProgress = async (req, res) => {
