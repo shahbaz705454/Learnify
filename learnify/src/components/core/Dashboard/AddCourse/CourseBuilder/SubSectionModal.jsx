@@ -43,7 +43,7 @@ export default function SubSectionModal({
       setValue("lectureDesc", modalData.description)
       setValue("lectureVideo", modalData.videoUrl)
     }
-  }, [])
+  }, [view, edit, modalData, setValue])
 
   // detect whether form is updated or not
   const isFormUpdated = () => {
@@ -77,9 +77,11 @@ export default function SubSectionModal({
       formData.append("video", currentValues.lectureVideo)
     }
     setLoading(true)
+    console.log("Form Data of  update subSection sub section nested "+ formData);
     const result = await updateSubSection(formData, token)
+    
     if (result) {
-      // console.log("result", result)
+      console.log("result", result)
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === modalData.sectionId ? result : section
