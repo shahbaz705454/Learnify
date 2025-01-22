@@ -4,7 +4,7 @@ const Section = require("../Models/Section")
 const SubSection = require("../Models/SubSection")
 const User = require("../Models/User")
 const { uploadImageToCloudinary } = require("../Utils/ImageUpload")
-const courseProgress = require("../Models/CourseProgress")
+const CourseProgress = require("../Models/CourseProgress")
 const { convertSecondsToDuration } = require("../Utils/secToDuration")
 // Function to create a new course
 exports.createCourse = async (req, res) => {

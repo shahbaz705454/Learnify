@@ -153,6 +153,7 @@ export const createSection = async (data, token) => {
 
 // create a subsection
 export const createSubSection = async (data, token) => {
+  console.log("form of sub esection ",data);
   let result = null
   const toastId = toast.loading("Loading...")
   try {

@@ -92,7 +92,7 @@ export default function SubSectionModal({
   }
 
   const onSubmit = async (data) => {
-    // console.log(data)
+    console.log(data)
     if (view) return
 
     if (edit) {
@@ -103,7 +103,7 @@ export default function SubSectionModal({
       }
       return
     }
-
+    
     const formData = new FormData()
     formData.append("sectionId", modalData)
     formData.append("title", data.lectureTitle)
@@ -111,17 +111,18 @@ export default function SubSectionModal({
     formData.append("video", data.lectureVideo)
     setLoading(true)
     const result = await createSubSection(formData, token)
+    
     if (result) {
       // update the structure of course
       const updatedCourseContent = course.courseContent.map((section) =>
         section._id === modalData ? result : section
-      )
-      const updatedCourse = { ...course, courseContent: updatedCourseContent }
-      dispatch(setCourse(updatedCourse))
-    }
-    setModalData(null)
-    setLoading(false)
+    )
+    const updatedCourse = { ...course, courseContent: updatedCourseContent }
+    dispatch(setCourse(updatedCourse))
   }
+  setModalData(null)
+  setLoading(false)
+}
 
   return (
     <div className="fixed inset-0 z-[1000] !mt-0 grid h-screen w-screen place-items-center overflow-auto bg-white bg-opacity-10 backdrop-blur-sm">
