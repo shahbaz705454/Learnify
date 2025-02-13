@@ -1,9 +1,11 @@
 import { toast } from "react-hot-toast";
 import { studentEndpoints } from "../apis";
 import { apiConnector } from "../apiConnector";
-import rzpLogo from "../../assets/Logo/rzp_logo.png"
+import rzpLogo from "../../assets/Logo/Logo-Full-Light.png"
 import { setPaymentLoading } from "../../Slices/courseSlice";
 import { resetCart } from "../../Slices/cartSlice";
+
+
 
 
 const {COURSE_PAYMENT_API, COURSE_VERIFY_API, SEND_PAYMENT_SUCCESS_EMAIL_API} = studentEndpoints;
@@ -28,7 +30,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
     const toastId = toast.loading("Loading...");
     try{
         //load the script
-        const res = await loadScript("https://checkout.razorpay.com/v1/checkout.js");
+        const res = await loadScript("https://checkout.razorpay.com/v2/checkout.js");
 
         if(!res) {
             toast.error("RazorPay SDK failed to load");
@@ -45,14 +47,18 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
         if(!orderResponse.data.success) {
             throw new Error(orderResponse.data.message);
         }
+      
+        
         console.log("PRINTING orderResponse", orderResponse);
+        
+        // console.log(" this is the amount ",orderResponse.data.data.amount)
         //options
         const options = {
-            key: process.env.RAZORPAY_KEY,
-            currency: orderResponse.data.message.currency,
-            amount: `${orderResponse.data.message.amount}`,
-            order_id:orderResponse.data.message.id,
-            name:"StudyNotion",
+            key: "rzp_test_Hkbddj35jV56Ps",
+            currency: orderResponse.data.data.currency,
+            amount: orderResponse.data.data.amount,
+            order_id:orderResponse.data.data.id,
+            name:"Learnify",
             description: "Thank You for Purchasing the Course",
             image:rzpLogo,
             prefill: {
@@ -61,7 +67,7 @@ export async function buyCourse(token, courses, userDetails, navigate, dispatch)
             },
             handler: function(response) {
                 //send successful wala mail
-                sendPaymentSuccessEmail(response, orderResponse.data.message.amount,token );
+                sendPaymentSuccessEmail(response, orderResponse.data.data.amount,token );
                 //verifyPayment
                 verifyPayment({...response, courses}, token, navigate, dispatch);
             }

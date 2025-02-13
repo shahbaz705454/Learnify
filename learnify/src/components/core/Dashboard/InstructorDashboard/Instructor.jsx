@@ -26,7 +26,7 @@ export default function Instructor() {
         }
         setLoading(false)
       })()
-    }, [])
+    }, [token])
   
     const totalAmount = instructorData?.reduce(
       (acc, curr) => acc + curr.totalAmountGenerated,
@@ -52,7 +52,7 @@ export default function Instructor() {
           <div className="spinner"></div>
         ) : courses.length > 0 ? (
           <div>
-            <div className="my-4 flex h-[450px] space-x-4">
+            <div className="my-4 flex flex-col lg:flex-row gap-4 space-x-4">
               {/* Render chart / graph */}
               {totalAmount > 0 || totalStudents > 0 ? (
                 <InstructorChart courses={instructorData} />
@@ -97,7 +97,7 @@ export default function Instructor() {
                   <p className="text-xs font-semibold text-yellow-50">View All</p>
                 </Link>
               </div>
-              <div className="my-4 flex items-start space-x-6">
+              <div className="my-4 flex flex-col justify-center lg:flex-row gap-10 items-start ">
                 {courses.slice(0, 3).map((course) => (
                   <div key={course._id} className="w-1/3">
                     <img
@@ -116,7 +116,7 @@ export default function Instructor() {
                         <p className="text-xs font-medium text-richblack-300">
                           |
                         </p>
-                        <p className="text-xs font-medium text-richblack-300">
+                        <p className="text-xs flex flex-row font-medium text-richblack-300">
                           Rs. {course.price}
                         </p>
                       </div>

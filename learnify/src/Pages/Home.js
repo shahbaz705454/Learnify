@@ -3,7 +3,7 @@ import { Link } from 'react-router-dom'
 import { FaArrowRight } from "react-icons/fa";
 import HighlightText from '../components/core/HomePage/HighlightText';
 import Button from '../components/core/HomePage/Button';
-import banner from "../assets/Images/banner.mp4"
+import banner from "../assets/Images/banner2.mp4"
 import Codeblocks from '../components/core/HomePage/Codeblocks';
 import TimelineSection from '../components/core/HomePage/TimelineSection';
 import LearnignLanguageSection from '../components/core/HomePage/LearnignLanguageSection';
@@ -11,9 +11,14 @@ import InstructorSection from '../components/core/HomePage/InstructorSection';
 import ExploreMore from '../components/core/HomePage/ExploreMore';
 import Footer from '../components/Common/Footer';
 import {toast} from "react-hot-toast"
+import ReviewSlider from '../components/Common/ReviewSlider';
 const Home = () => {
     return (
+        
         <div >
+
+
+        
             {/* Section 1 */}
             <div className='relative mx-auto flex flex-col  w-11/12 items-center text-white justify-center'>
                 <Link to={"/signup"} >
@@ -202,12 +207,13 @@ const Home = () => {
 
 
             {/* Section 3 */}
-            <div className='w-11/12 mx-auto max-w-maxContent flex flex-col items-center justify-center gap-8 first-letter
-            bg-richblack-900 text-white'>
+            <div className='relative mx-auto my-20 flex w-11/12 max-w-maxContent flex-col items-center justify-between gap-8 bg-richblack-900 text-white'>
                 <InstructorSection></InstructorSection>
-                <h2>Reviews from other learners</h2>
+                <h1 className='text-center text-4xl font-semibold mt-8'>Reviews from other learners</h1>
+                <ReviewSlider></ReviewSlider>
 
             </div>
+
 
             {/* Footer */}
 
@@ -216,6 +222,7 @@ const Home = () => {
 
 
         </div>
+            
     )
 }
 
