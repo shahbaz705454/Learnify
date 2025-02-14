@@ -3,9 +3,11 @@ import RenderSteps from './RenderSteps'
 
 export default function AddCourse() {
     return (
-        <>
 
-<div className="flex w-full items-start gap-x-6 overflow-hidden">
+      
+        
+
+<div className="flex w-fit h-full md:w-full items-start gap-x-6 overflow-hidden z-50">
         <div className="flex flex-1 flex-col">
           <h1 className="mb-14 text-3xl font-medium text-richblack-5">
             Add Course
@@ -34,9 +36,15 @@ export default function AddCourse() {
             <li>Notes to all enrolled students at once.</li>
           </ul>
         </div>
+
+
+
       </div>
 
-        </>
+      
+      
+
+       
     )
 }
 

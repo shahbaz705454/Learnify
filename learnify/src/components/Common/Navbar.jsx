@@ -1,32 +1,34 @@
-import { useEffect, useState } from "react"
-import { AiOutlineMenu, AiOutlineShoppingCart } from "react-icons/ai"
-import { BsChevronDown } from "react-icons/bs"
-import { useSelector } from "react-redux"
-import { Link, matchPath, useLocation } from "react-router-dom"
-import logo from "../../assets/Logo/Logo-Full-Light.png"
-import { NavbarLinks } from "../../data/navbar-links"
-import {apiConnector} from "../../Services/apiConnector"
-import { categories } from "../../Services/apis"
-import { ACCOUNT_TYPE } from "../../Utils/constant"
-import ProfileDropdown from "../core/Auth/ProfileDropDown"
+import { useEffect, useState } from "react";
+import { AiOutlineMenu, AiOutlineShoppingCart, AiOutlineClose } from "react-icons/ai";
+import { BsChevronDown } from "react-icons/bs";
+import { useSelector } from "react-redux";
+import { Link, matchPath, useLocation } from "react-router-dom";
+import logo from "../../assets/Logo/Logo-Full-Light.png";
+import { NavbarLinks } from "../../data/navbar-links";
+import { apiConnector } from "../../Services/apiConnector";
+import { categories } from "../../Services/apis";
+import { ACCOUNT_TYPE } from "../../Utils/constant";
+import ProfileDropdown from "../core/Auth/ProfileDropDown";
 
 function Navbar() {
-  const { token } = useSelector((state) => state.auth)
-  const { user } = useSelector((state) => state.profile)
-  const { totalItems } = useSelector((state) => state.cart)
-  const location = useLocation()
+  const { token } = useSelector((state) => state.auth);
+  const { user } = useSelector((state) => state.profile);
+  const { totalItems } = useSelector((state) => state.cart);
+  const location = useLocation();
 
-  const [subLinks, setSubLinks] = useState([])
-  const [loading, setLoading] = useState(false)
+  const [subLinks, setSubLinks] = useState([]);
+  const [loading, setLoading] = useState(false);
+  const [isMenuOpen, setIsMenuOpen] = useState(false);
+  const [isCatalogOpen, setIsCatalogOpen] = useState(false);
 
   useEffect(() => {
     ;(async () => {
       setLoading(true)
       try {
         const res = await apiConnector("GET", categories.CATEGORIES_API)
-        console.log("sublinkm is here", res)
+        // console.log("categories is here :" ,res);
         setSubLinks(res.data.allCategory)
-        console.log(subLinks)
+        
       } catch (error) {
         console.log("Could not fetch Categories.", error)
       }
@@ -34,11 +36,17 @@ function Navbar() {
     })()
   }, [])
 
-  // console.log("sub links", subLinks)
-
   const matchRoute = (route) => {
-    return matchPath({ path: route }, location.pathname)
-  }
+    return matchPath({ path: route }, location.pathname);
+  };
+
+  const toggleMenu = () => {
+    setIsMenuOpen(!isMenuOpen);
+  };
+
+  const toggleCatalog = () => {
+    setIsCatalogOpen(!isCatalogOpen);
+  };
 
   return (
     <div
@@ -58,7 +66,7 @@ function Navbar() {
               <li key={index}>
                 {link.title === "Catalog" ? (
                   <>
-                    <div
+                  <div
                       className={`group relative flex cursor-pointer items-center gap-1 ${
                         matchRoute("/catalog/:catalogName")
                           ? "text-yellow-25"
@@ -141,12 +149,106 @@ function Navbar() {
           )}
           {token !== null && <ProfileDropdown />}
         </div>
-        <button className="mr-4 md:hidden">
-          <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+        <button className="mr-4 md:hidden" onClick={toggleMenu}>
+          {isMenuOpen ? (
+            <AiOutlineClose fontSize={24} fill="#AFB2BF" />
+          ) : (
+            <AiOutlineMenu fontSize={24} fill="#AFB2BF" />
+          )}
         </button>
       </div>
+      {/* Mobile Menu */}
+      {isMenuOpen && (
+        <div className=" flex justify-center absolute z-50 top-14 right-0 w-1/2 min-h-[40vh] h-auto rounded-bl-xl gap-10  bg-richblue-800 md:hidden">
+          <ul className="flex flex-col text-xl items-center gap-y-4 py-4 text-richblack-25">
+            {NavbarLinks.map((link, index) => (
+              <li key={index}>
+                {link.title === "Catalog" ? (
+                  <>
+                    <div
+                      className={`group relative flex cursor-pointer items-center gap-1 ${
+                        matchRoute("/catalog/:catalogName")
+                          ? "text-yellow-25"
+                          : "text-richblack-25"
+                      }`}
+                      onClick={toggleCatalog}
+                    >
+                      <p>{link.title}</p>
+                      <BsChevronDown />
+                    </div>
+                    {isCatalogOpen && (
+                      <div className="flex flex-col w-full text-lg border-b text-richblack-100">
+                        {loading ? (
+                          <p className="text-center">Loading...</p>
+                        ) : subLinks && subLinks.length ? (
+                          <>
+                            {subLinks
+                              ?.filter((subLink) => subLink?.courses?.length > 0)
+                              ?.map((subLink, i) => (
+                                <Link
+                                  to={`/catalog/${subLink.name
+                                    .split(" ")
+                                    .join("-")
+                                    .toLowerCase()}`}
+                                  className="rounded-lg bg-transparent py-4 pl-4 hover:bg-richblack-50"
+                                  key={i}
+                                  onClick={toggleMenu}
+                                >
+                                  <p>{subLink.name}</p>
+                                </Link>
+                              ))}
+                          </>
+                        ) : (
+                          <p className="text-center">No Courses Found</p>
+                        )}
+                      </div>
+                    )}
+                  </>
+                ) : (
+                  <Link to={link?.path} onClick={toggleMenu}>
+                    <p
+                      className={`${
+                        matchRoute(link?.path)
+                          ? "text-yellow-25"
+                          : "text-richblack-25"
+                      }`}
+                    >
+                      {link.title}
+                    </p>
+                  </Link>
+                )}
+              </li>
+            ))}
+            {user && user?.accountType !== ACCOUNT_TYPE.INSTRUCTOR && (
+              <Link to="/dashboard/cart" className="relative" onClick={toggleMenu}>
+                <AiOutlineShoppingCart className="text-2xl text-richblack-100" />
+                {totalItems > 0 && (
+                  <span className="absolute -bottom-2 -right-2 grid h-5 w-5 place-items-center overflow-hidden rounded-full bg-richblack-600 text-center text-xs font-bold text-yellow-100">
+                    {totalItems}
+                  </span>
+                )}
+              </Link>
+            )}
+            {token === null && (
+              <Link to="/login" onClick={toggleMenu}>
+                <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                  Log in
+                </button>
+              </Link>
+            )}
+            {token === null && (
+              <Link to="/signup" onClick={toggleMenu}>
+                <button className="rounded-[8px] border border-richblack-700 bg-richblack-800 px-[12px] py-[8px] text-richblack-100">
+                  Sign up
+                </button>
+              </Link>
+            )}
+            {token !== null && <ProfileDropdown />}
+          </ul>
+        </div>
+      )}
     </div>
-  )
+  );
 }
 
-export default Navbar
+export default Navbar;

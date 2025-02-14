@@ -41,7 +41,7 @@ export default function CoursesTable({ courses, setCourses }) {
 
   return (
     <>
-      <Table className="rounded-xl border border-richblack-800 ">
+      <Table className="rounded-xl border  border-richblack-800 ">
         <Thead>
           <Tr className="flex gap-x-10 rounded-t-md border-b border-b-richblack-800 px-6 py-2">
             <Th className="flex-1 text-left text-sm font-medium uppercase text-richblack-100">
@@ -76,13 +76,13 @@ export default function CoursesTable({ courses, setCourses }) {
                   <img
                     src={course?.thumbnail}
                     alt={course?.courseName}
-                    className="h-[148px] w-[220px] rounded-lg object-cover"
+                    className="md:h-[148px] h-fit md:w-[220px] rounded-lg mr-2 object-cover"
                   />
-                  <div className="flex flex-col justify-between">
-                    <p className="text-lg font-semibold text-richblack-5">
+                  <div className="flex flex-col gap-5 pr-4 justify-between">
+                    <p className="text-lg  font-semibold text-richblack-5">
                       {course.courseName}
                     </p>
-                    <p className="text-xs text-richblack-300">
+                    <p className="text-xs gap-3 text-richblack-300">
                       {course.courseDescription.split(" ").length >
                       TRUNCATE_LENGTH
                         ? course.courseDescription
@@ -95,7 +95,7 @@ export default function CoursesTable({ courses, setCourses }) {
                       Created: {formatDate(course.createdAt)}
                     </p>
                     {course.status === COURSE_STATUS.DRAFT ? (
-                      <p className="flex w-fit flex-row items-center gap-2 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
+                      <p className="flex  w-fit flex-row items-center gap-4 rounded-full bg-richblack-700 px-2 py-[2px] text-[12px] font-medium text-pink-100">
                         <HiClock size={14} />
                         Drafted
                       </p>
@@ -109,13 +109,13 @@ export default function CoursesTable({ courses, setCourses }) {
                     )}
                   </div>
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
+                <Td className="mt-4 text-sm font-medium text-richblack-100">
                   2hr 30min
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100">
+                <Td className="text-sm my-2 font-medium text-richblack-100">
                   ₹{course.price}
                 </Td>
-                <Td className="text-sm font-medium text-richblack-100 ">
+                <Td className="text-sm mb-4 font-medium text-richblack-100 ">
                   <button
                     disabled={loading}
                     onClick={() => {

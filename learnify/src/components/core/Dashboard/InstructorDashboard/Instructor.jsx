@@ -97,9 +97,9 @@ export default function Instructor() {
                   <p className="text-xs font-semibold text-yellow-50">View All</p>
                 </Link>
               </div>
-              <div className="my-4 flex flex-col justify-center lg:flex-row gap-10 items-start ">
+              <div className="flex flex-col gap-5 md:flex-row w-full mx-auto justify-center items-center">
                 {courses.slice(0, 3).map((course) => (
-                  <div key={course._id} className="w-1/3">
+                  <div key={course._id} className="w-fit mb-4 mt-2">
                     <img
                       src={course.thumbnail}
                       alt={course.courseName}

@@ -19,14 +19,14 @@ const Course_Card = ({course, Height}) => {
     <>
       <Link to={`/courses/${course._id}`}>
         <div className="">
-          <div className="rounded-lg">
+          <div className="rounded-lg px-5 py-5 justify-center items-center flex">
             <img
               src={course?.thumbnail}
               alt="course thumnail"
-              className={`${Height} w-full rounded-xl object-cover `}
+              className={`${Height} w-[300px] md:w-full h-[200px] rounded-xl object-cover `}
             />
           </div>
-          <div className="flex flex-col gap-2 px-1 py-3">
+          <div className="flex flex-col justify-center items-center gap-2 px-1 py-3">
             <p className="text-xl text-richblack-5">{course?.courseName}</p>
             <p className="text-sm text-richblack-50">
               {course?.instructor?.firstName} {course?.instructor?.lastName}
