@@ -36,7 +36,9 @@ import CourseDetails from './Pages/CourseDetails';
 
 function App() {
 
-  const { user } = useSelector((state) => state.profile)
+  const { user } = useSelector((state) => state.profile);
+  console.log("Environment Variables:", process.env);
+console.log("Base API URL:", process.env.REACT_APP_BASE_URL);
 
   return (
     <div className="w-screen min-h-screen bg-richblack-900 overflow-hidden flex flex-col font-inter">
