@@ -37,14 +37,14 @@ function ReviewSlider() {
 
   return (
     <div className="text-white ">
-      <div className="my-[50px] h-[184px] w-[800px]  lg:max-w-maxContent">
+      <div className="my-[50px] h-[184px] w-[1400px]  lg:max-w-maxContent">
         <Swiper
           slidesPerView={4}
           spaceBetween={25}
           loop={true}
           freeMode={true}
           autoplay={{
-            delay: 2500,
+            delay: 500,
             disableOnInteraction: false,
           }}
           modules={[FreeMode, Pagination, Autoplay]}
